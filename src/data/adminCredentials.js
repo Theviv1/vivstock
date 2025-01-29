@@ -1,0 +1,1 @@
+// This file is intentionally left empty as admin functionality has been removed
