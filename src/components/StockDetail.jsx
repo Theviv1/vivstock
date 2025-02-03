@@ -154,10 +154,10 @@ function StockDetail() {
               />
               <div className="text-left">
                 <h2 className="text-2xl font-bold mb-1">
-                  {stock.isUSD ? '$' : '₦'}{stock.price}
+                  {stock.isUSD ? '$' : '$'}{stock.price}
                 </h2>
                 <div className="flex items-center gap-2">
-                  <span className="text-red-500 text-xs">₦0.10</span>
+                  <span className="text-red-500 text-xs">$0.10</span>
                   <span className="text-red-500 text-xs">0.39%</span>
                   <span className="text-gray-500 text-xs">TODAY</span>
                 </div>
@@ -359,10 +359,10 @@ function StockDetail() {
               />
               <div className="text-left">
                 <h2 className="text-2xl font-bold mb-1">
-                  {stock.isUSD ? '$' : '₦'}{stock.price}
+                  {stock.isUSD ? '$' : '$'}{stock.price}
                 </h2>
                 <div className="flex items-center gap-2">
-                  <span className="text-red-500 text-xs">₦0.10</span>
+                  <span className="text-red-500 text-xs">$0.10</span>
                   <span className="text-red-500 text-xs">0.39%</span>
                   <span className="text-gray-500 text-xs">TODAY</span>
                 </div>
@@ -379,13 +379,13 @@ function StockDetail() {
                 <div className="flex justify-between items-center py-2 border-b border-gray-700">
                   <span className="text-gray-400">High</span>
                   <span className="font-medium">
-                    {stock.isUSD ? '$' : '₦'}{(parseFloat(stock.price) * 1.05).toFixed(2)}
+                    {stock.isUSD ? '$' : '$'}{(parseFloat(stock.price) * 1.05).toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-700">
                   <span className="text-gray-400">Low</span>
                   <span className="font-medium">
-                    {stock.isUSD ? '$' : '₦'}{(parseFloat(stock.price) * 0.95).toFixed(2)}
+                    {stock.isUSD ? '$' : '$'}{(parseFloat(stock.price) * 0.95).toFixed(2)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-700">
