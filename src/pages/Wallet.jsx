@@ -7,6 +7,7 @@ import { FaArrowRight, FaCopy, FaLock } from "react-icons/fa";
 import DepositModal from "../components/modals/DepositModal";
 import WithdrawModal from "../components/modals/WithdrawModal";
 import { toast } from "react-hot-toast";
+import { useAuth } from '../../context/AuthContext';
 
 
 function Wallet() {
