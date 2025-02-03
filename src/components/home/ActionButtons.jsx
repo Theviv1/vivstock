@@ -6,6 +6,8 @@ import { FaCopy } from "react-icons/fa";
 function ReferralModal({ isOpen, onClose }) {
   const [showBalance, setShowBalance] = useState(true);
   const modalRef = useRef(null);
+   const { user } = useAuth();
+  const username = user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
 
   useEffect(() => {
     if (isOpen) {
