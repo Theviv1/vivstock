@@ -51,6 +51,9 @@ function StockDetail() {
     if (type === "buy" && price > currentBalance) {
       toast.error("Insufficient balance");
       return;
+    } else if(type === "sell" && price > currentBalance){
+      toast.error("insufficient balance");
+      return;
     }
 
     const tradeData = {
