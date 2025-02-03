@@ -82,7 +82,7 @@ function ReferralModal({ isOpen, onClose }) {
 
         <div className=" h-[40px] rounded-full bg-[#000] flex items-center gap-[10px] justify-center group cursor-pointer hover:bg-gray-900 transition-colors max-sm:w-full">
           <span className=" text-sm max-sm:text-[13px]">
-            https://Vivstock.com/username
+            https://Vivstock.com/{username}
           </span>
           <span className="opacity-0 group-hover:opacity-100 transition-opacity">
             <FaCopy size={13} />
