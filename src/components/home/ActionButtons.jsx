@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { IoClose } from "react-icons/io5";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import { FaCopy } from "react-icons/fa";
+import { useAuth } from '../../context/AuthContext';
 
 function ReferralModal({ isOpen, onClose }) {
   const [showBalance, setShowBalance] = useState(true);
