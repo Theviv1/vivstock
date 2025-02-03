@@ -14,7 +14,7 @@ function StockMetrics({ price }) {
               <BsCurrencyDollar size={20} className="text-[#00B087]" />
               <span className="text-sm">Open price</span>
             </div>
-            <span className="font-semibold text-sm">₦{price}</span>
+            <span className="font-semibold text-sm">${price}</span>
           </div>
         </div>
         <div className="bg-transparent rounded-lg w-full py-3 sm:w-auto">
