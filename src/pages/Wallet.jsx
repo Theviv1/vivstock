@@ -8,6 +8,7 @@ import DepositModal from "../components/modals/DepositModal";
 import WithdrawModal from "../components/modals/WithdrawModal";
 import { toast } from "react-hot-toast";
 
+
 function Wallet() {
   const [selectedTimeframe, setSelectedTimeframe] = useState("7d");
   const [balance, setBalance] = useState(() => {
@@ -16,6 +17,8 @@ function Wallet() {
   const [isDepositModalOpen, setIsDepositModalOpen] = useState(false);
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
   const navigate = useNavigate();
+   const { user } = useAuth();
+  const username = user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
 
   useEffect(() => {
     // Check for approved transactions
