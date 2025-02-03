@@ -129,7 +129,7 @@ function Wallet() {
       <div className="relative bottom-[100px] bg-[#1E1E1E] text-white font-semibold flex rounded-[20px] flex-col gap-[6px] justify-start items-center">
         <div className="rounded-[20px] w-full px-4 h-[80px] py-2 bg-[#1E1E1E] flex items-center justify-center group cursor-pointer hover:bg-gray-900 transition-colors">
           <span className="text-sm max-sm:text-[13px]">
-            https://Vivstock.com/username
+            https://Vivstock.com/{username}
           </span>
           <span className="opacity-0 group-hover:opacity-100 transition-opacity">
             <FaCopy size={13} />
