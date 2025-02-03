@@ -90,8 +90,8 @@ const KYCSidebar = ({ isOpen, onClose }) => {
           <button onClick={onClose} className="p-2 hover:bg-gray-700 rounded-full">
             <IoClose size={24} />
           </button>
-          <button onClick={handleLogout} className="p-2 hover:bg-gray-700 rounded-full">
-            <FaSignOutAlt size={20} />
+          <button onClick={handleLogout} className="p-2 hover:bg-gray-700 rounded-full text-red-500">
+            Logout
           </button>
         </div>
 
