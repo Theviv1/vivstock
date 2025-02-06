@@ -1,6 +1,6 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { Toaster } from 'react-hot-toast';
-import { AuthProvider } from './context/AuthContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Sidebar from "./components/Sidebar";
 import Home from "./pages/Home";
 import Market from "./pages/Market";
@@ -21,23 +21,32 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 function AppRoutes() {
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
+  
   const hideNavbar =
-    location.pathname.includes("/trade/") ||
-    location.pathname.includes("/trader/") ||
     location.pathname === "/login" ||
     location.pathname === "/signup" ||
-    location.pathname === "/forgot-password";
+    location.pathname === "/forgot-password" ||
+    location.pathname.includes("/trade/") ||
+    location.pathname.includes("/trader/");
+
+  // Redirect to home if authenticated and trying to access auth pages
+  if (isAuthenticated && ['/login', '/signup', '/forgot-password'].includes(location.pathname)) {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-[#111111] text-white">
       {!hideNavbar && <Sidebar hideOnMobile={hideNavbar} />}
       <div className={!hideNavbar ? "lg:pl-64" : ""}>
         <Routes>
+          {/* Public Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           
-          <Route path="/" element={<Home />} />
+          {/* Protected Routes */}
+          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/market" element={<ProtectedRoute><Market /></ProtectedRoute>} />
           <Route path="/trade/:symbol" element={<ProtectedRoute><StockDetail /></ProtectedRoute>} />
           <Route path="/wallet" element={<ProtectedRoute><Wallet /></ProtectedRoute>} />
@@ -48,6 +57,9 @@ function AppRoutes() {
           <Route path="/market/foreign-stocks" element={<ProtectedRoute><ForeignStockList /></ProtectedRoute>} />
           <Route path="/fixed" element={<ProtectedRoute><Fixed /></ProtectedRoute>} />
           <Route path="/refer" element={<ProtectedRoute><Refer /></ProtectedRoute>} />
+          
+          {/* Catch all route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </div>
     </div>
