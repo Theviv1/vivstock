@@ -14,40 +14,34 @@ function WelcomeHeader() {
   const username = user?.user_metadata?.username || user?.email?.split('@')[0] || 'User';
 
   useEffect(() => {
+    // Check if we should open KYC sidebar from navigation state
     if (location.state?.openKYC) {
       setIsSidebarOpen(true);
     }
   }, [location]);
 
   useEffect(() => {
+    // Fetch user's profile image
     const fetchProfileImage = async () => {
       try {
-        if (!user) return;
-        
         const { data, error } = await supabase
           .from('profiles')
           .select('avatar_url')
           .eq('id', user.id)
           .single();
 
-        if (error) {
-          // Only log the error if it's not a "not found" error
-          if (error.code !== 'PGRST116') {
-            console.error('Error fetching profile image:', error);
-          }
-          return;
-        }
-
+        if (error) throw error;
         if (data?.avatar_url) {
           setProfileImageUrl(data.avatar_url);
         }
       } catch (error) {
-        // Silently handle the error as profile image is not critical
-        console.warn('Failed to fetch profile image:', error);
+        console.error('Error fetching profile image:', error);
       }
     };
 
-    fetchProfileImage();
+    if (user) {
+      fetchProfileImage();
+    }
   }, [user]);
 
   return (
