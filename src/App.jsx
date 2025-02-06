@@ -37,7 +37,7 @@ function AppRoutes() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           
-          <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
           <Route path="/market" element={<ProtectedRoute><Market /></ProtectedRoute>} />
           <Route path="/trade/:symbol" element={<ProtectedRoute><StockDetail /></ProtectedRoute>} />
           <Route path="/wallet" element={<ProtectedRoute><Wallet /></ProtectedRoute>} />
