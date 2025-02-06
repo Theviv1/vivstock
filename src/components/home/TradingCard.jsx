@@ -85,13 +85,13 @@ function TradingCard() {
       <div className="flex items-center gap-4">
         <span className="text-gray-400 text-[12px]">8060011502 </span>
         <FaCopy size={10} />
-        <button
+{/*         <button
           onClick={handleTransfer}
           className="bg-[#7F3DFF] text-white px-4 py-2 rounded-lg hover:bg-[#6F2FEF] transition-colors"
           disabled={profitBalance <= 0}
         >
           Transfer to Wallet
-        </button>
+        </button> */}
       </div>
     </div>
   );
