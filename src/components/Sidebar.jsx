@@ -22,7 +22,7 @@ const Sidebar = ({ hideOnMobile }) => {
   };
 
   const menuItems = [
-    { path: "/", icon: AiOutlineHome, label: "Home" },
+    { path: "/home", icon: AiOutlineHome, label: "Home" },
     { path: "/market", icon: MdOutlineAnalytics, label: "Market" },
     {
       path: "/trade",
@@ -45,7 +45,7 @@ const Sidebar = ({ hideOnMobile }) => {
                 src="/Vivstock_logo__1_-removebg-preview 1 197.png"
                 className="w-[38px] "
               />{" "}
-              Vicstock
+              Vivstock
             </h1>
           </div>
           <nav className="space-y-2">
