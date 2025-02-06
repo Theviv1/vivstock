@@ -22,7 +22,7 @@ const Sidebar = ({ hideOnMobile }) => {
   };
 
   const menuItems = [
-    { path: "/home", icon: AiOutlineHome, label: "Home" },
+    { path: "/", icon: AiOutlineHome, label: "Home" },
     { path: "/market", icon: MdOutlineAnalytics, label: "Market" },
     {
       path: "/trade",
