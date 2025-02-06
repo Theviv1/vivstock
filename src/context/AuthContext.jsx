@@ -47,13 +47,16 @@ export const AuthProvider = ({ children }) => {
               id: data.user.id,
               username,
               email,
+              balance: 0,
+              profit_balance: 0,
+              is_verified: false
             }
           ]);
 
         if (profileError) throw profileError;
       }
 
-      toast.success('Account created successfully! Please check your email for verification.');
+      toast.success('Account created successfully!');
       return data;
     } catch (error) {
       toast.error(error.message);
@@ -70,10 +73,8 @@ export const AuthProvider = ({ children }) => {
 
       if (error) throw error;
       
-      // Set session in localStorage
-      localStorage.setItem('sb-token', data.session.access_token);
-      
-      return { data };
+      toast.success('Logged in successfully!');
+      return data;
     } catch (error) {
       toast.error(error.message);
       throw error;
@@ -85,21 +86,7 @@ export const AuthProvider = ({ children }) => {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
       
-      // Clear session from localStorage
-      localStorage.removeItem('sb-token');
-      
       toast.success('Logged out successfully');
-    } catch (error) {
-      toast.error(error.message);
-      throw error;
-    }
-  };
-
-  const resetPassword = async (email) => {
-    try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email);
-      if (error) throw error;
-      toast.success('Password reset instructions sent to your email');
     } catch (error) {
       toast.error(error.message);
       throw error;
@@ -112,7 +99,6 @@ export const AuthProvider = ({ children }) => {
       login, 
       signup, 
       logout,
-      resetPassword,
       loading,
       isAuthenticated: !!user 
     }}>
