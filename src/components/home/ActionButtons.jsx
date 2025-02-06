@@ -32,6 +32,26 @@ function ReferralModal({ isOpen, onClose }) {
     }
   };
 
+   const handleTransfer = () => {
+    try {
+      // Get current wallet balance
+      const currentWalletBalance = parseFloat(localStorage.getItem("walletBalance")) || 0;
+      
+      // Add profit to wallet balance
+      const newWalletBalance = currentWalletBalance + profitBalance;
+      localStorage.setItem("walletBalance", newWalletBalance.toString());
+      
+      // Reset profit balance
+      setProfitBalance(0);
+      localStorage.setItem("profitBalance", "0");
+      
+      toast.success('Profit transferred to wallet successfully');
+    } catch (error) {
+      console.error('Transfer error:', error);
+      toast.error('Failed to transfer profit');
+    }
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -158,7 +178,7 @@ export default function ActionButtons() {
             <img src="/withdraw.png" alt="Withdraw" className="w-5 h-5" />
             <p>Withdraw</p>
           </button>
-          <button className="bg-[#1E1E1E] text-white py-2 pl-2 pr-5 rounded-[10px] font-medium gap-[4px] items-center flex">
+          <button className="bg-[#1E1E1E] text-white py-2 pl-2 pr-5 rounded-[10px] font-medium gap-[4px] items-center flex" onclick={handleTransfer}>
             <img src="/transer.png" alt="Transfer" className="w-5 h-5" />
             <p>Transfer</p>
           </button>
