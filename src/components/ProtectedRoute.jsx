@@ -1,11 +1,11 @@
 import { Navigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
-function ProtectedRoute({ children, adminOnly = false }) {
-  const adminRole = localStorage.getItem('adminRole');
-  const isAuthenticated = !!localStorage.getItem('sb-token');
+function ProtectedRoute({ children }) {
+  const { isAuthenticated, loading } = useAuth();
 
-  if (adminOnly && !adminRole) {
-    return <Navigate to="/login" />;
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   if (!isAuthenticated) {
