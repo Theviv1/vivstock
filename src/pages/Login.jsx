@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-hot-toast';
 
@@ -10,6 +10,7 @@ function Login() {
   });
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
@@ -18,9 +19,12 @@ function Login() {
 
     try {
       await login(formData.email, formData.password);
-      navigate('/', { replace: true });
+      // Redirect to the attempted URL or home
+      const from = location.state?.from?.pathname || '/';
+      navigate(from, { replace: true });
     } catch (error) {
       console.error('Login error:', error);
+      toast.error(error.message || 'Failed to login');
     } finally {
       setIsLoading(false);
     }
