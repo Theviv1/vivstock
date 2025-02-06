@@ -1,77 +1,29 @@
 import { useState } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { adminCredentials } from '../data/adminCredentials';
 import { toast } from 'react-hot-toast';
-import VerificationPopup from '../components/VerificationPopup';
 
 function Login() {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [showVerificationPopup, setShowVerificationPopup] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     setIsLoading(true);
 
     try {
-      // Check if it's an admin login
-      const superAdmin = adminCredentials.superAdmin;
-      const adminUser = adminCredentials.admins.find(admin => admin.email === formData.email);
-      
-      if (formData.email === superAdmin.email && formData.password === superAdmin.password) {
-        // Super admin login
-        localStorage.setItem('adminRole', 'super_admin');
-        localStorage.setItem('adminPermissions', JSON.stringify(superAdmin.permissions));
-        toast.success('Welcome, Super Admin!');
-        navigate('/admin/dashboard');
-        return;
-      } else if (adminUser && formData.password === adminUser.password) {
-        // Regular admin login
-        localStorage.setItem('adminRole', adminUser.role);
-        localStorage.setItem('adminPermissions', JSON.stringify(adminUser.permissions));
-        toast.success('Welcome, Admin!');
-        navigate('/admin/dashboard');
-        return;
-      }
-
-      // Regular user login
-      const { data } = await login(formData.email, formData.password);
-      
-      // Check if user is verified
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('is_verified')
-        .eq('id', data.user.id)
-        .single();
-
-      if (!profile?.is_verified) {
-        setShowVerificationPopup(true);
-      } else {
-        toast.success('Welcome back!');
-        navigate('/', { replace: true });
-      }
+      await login(formData.email, formData.password);
+      navigate('/', { replace: true });
     } catch (error) {
-      setError('Invalid email or password');
-      toast.error('Login failed');
+      console.error('Login error:', error);
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleVerify = () => {
-    setShowVerificationPopup(false);
-    // Open KYC sidebar
-    // This will be handled by the parent component
-    navigate('/', { state: { openKYC: true } });
   };
 
   return (
@@ -100,16 +52,7 @@ function Login() {
             />
           </div>
           <h2 className="text-2xl font-bold mb-4 text-gray-800">Welcome Back</h2>
-          {location.state?.message && (
-            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-              {location.state.message}
-            </div>
-          )}
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-              {error}
-            </div>
-          )}
+          
           <form onSubmit={handleSubmit} className="space-y-6 text-black">
             <div>
               <input
@@ -163,12 +106,6 @@ function Login() {
           </div>
         </div>
       </div>
-
-      <VerificationPopup
-        isOpen={showVerificationPopup}
-        onClose={() => setShowVerificationPopup(false)}
-        onVerify={handleVerify}
-      />
     </div>
   );
 }
