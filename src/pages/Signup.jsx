@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { useAuth } from '../context/AuthContext';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 import './Signup.css';
@@ -12,11 +12,11 @@ function Signup() {
     password: '',
     referral: '',
   });
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showReferral, setShowReferral] = useState(false);
   const [isAgreed, setIsAgreed] = useState(false);
   const navigate = useNavigate();
+  const { signup } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,61 +25,13 @@ function Signup() {
       return;
     }
 
-    setError('');
     setIsLoading(true);
 
     try {
-      // Validate email format
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(formData.email)) {
-        throw new Error('Please enter a valid email address');
-      }
-
-      // Validate password strength
-      if (formData.password.length < 6) {
-        throw new Error('Password must be at least 6 characters long');
-      }
-
-      // Create user in Supabase
-      const { data, error: signUpError } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            username: formData.username,
-            referral: formData.referral || null
-          }
-        }
-      });
-
-      if (signUpError) throw signUpError;
-
-      // Create profile record with zero balances
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert([
-          {
-            id: data.user.id,
-            username: formData.username,
-            email: formData.email,
-            balance: 0,
-            profit_balance: 0,
-            is_verified: false
-          }
-        ]);
-
-      if (profileError) throw profileError;
-
-      // Initialize local storage balances
-      localStorage.setItem("walletBalance", "0");
-      localStorage.setItem("profitBalance", "0");
-
-      toast.success('Account created successfully! Please check your email to verify your account.');
+      await signup(formData.email, formData.password, formData.username);
       navigate('/login');
     } catch (error) {
       console.error('Signup error:', error);
-      toast.error(error.message || 'Failed to create account');
-      setError(error.message || 'Failed to create account');
     } finally {
       setIsLoading(false);
     }
@@ -114,12 +66,6 @@ function Signup() {
           <h2 className="text-2xl font-bold mb-8 text-gray-800">
             Welcome to Vivstock
           </h2>
-
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-              {error}
-            </div>
-          )}
 
           <div className="flex justify-start relative top-[-15px]">
             <span className="px-4 py-2 text-gray-800 font-semibold border-b-[1px] border-gray-900">
